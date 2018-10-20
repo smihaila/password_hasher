@@ -124,7 +124,10 @@ func (sc *StatsController) save() error {
 // WARNING: The StatsController.hashAverageResponseTimeUSec() private method MUST ALWAYS be called within an acquired
 // StatsController.mutex context!
 func (sc *StatsController) hashAverageResponseTimeUSec() float64 {
-    sc.load()
+    if err := sc.load(); nil != err {
+        log.Fatal(err)
+        return -3
+    }
 
     if 0 == sc.hashCount {
         return -1
@@ -137,4 +140,3 @@ func (sc *StatsController) hashAverageResponseTimeUSec() float64 {
     
     return avgRespTime
 }
-
