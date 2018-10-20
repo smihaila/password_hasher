@@ -14,7 +14,7 @@ CloudJump Password Hasher Microservice
         - build.cmd
         - bin\password_hasher.exe
     - Execute in a second cmd.exe shell (or use PostMan):
-        - curl -X POST -d 'password=some_password' http://localhost:8080/hash
+        - curl -X POST -d "password=angryMonkey" http://localhost:8080/hash
         - curl http://localhost:8080/stats
         - curl http://localhost:8080/shutdown
 - Linux: tbd
