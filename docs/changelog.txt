@@ -1,0 +1,14 @@
+v1.1 (2018.10.22):
+==================
+  - Added "operationName" string arg to the OperationTracker.Begin/EndOperation().
+  - Added a "validation" module / package.
+  - StatsController "FilePath" public field is now private, renamed to "configFilePath" and an Init() method acts as
+    a constructor.
+  - For any log / print formatting purposes, the "%v" is used as more generic format specifier, instead of explicit
+    ones (i.e. %s, %d etc).
+  - WebApi.onHttpGetShutdown() wraps the httpServer.Shutdown() call within a Goroutine, along with more log messages
+    added.
+
+v1.0 (2018.10.20):
+==================
+  - Initial implementation.

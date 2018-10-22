@@ -2,6 +2,7 @@ package controllers
 
 import (
     "log"
+    "fmt"
     "net/http"
     "sync"
     "os"
@@ -9,15 +10,29 @@ import (
     "encoding/json"
     "math"
     
+    "../validation"
     "../models"
 )
 
 type StatsController struct {
-    FilePath string
+    configFilePath string
 
     mutex sync.Mutex
     hashCount uint
     hashCumulatedResponseTimeUSec float64
+}
+
+func (sc *StatsController) Init(configFilePath string) error {
+    if !validation.IsValidOutputFilePath(configFilePath) {
+        return fmt.Errorf("Invalid configFilePath arg: %v.", configFilePath)
+    }
+    
+    sc.configFilePath = configFilePath
+    return nil
+}
+
+func (sc *StatsController) ConfigFilePath() string {
+    return sc.configFilePath
 }
 
 // ----------------------------------------------------------
@@ -72,16 +87,20 @@ func (sc *StatsController) AddHashInfo(hashResponseTimeUSec float64) error {
     return nil
 }
 
+// -------------------------------------------------
+// StatsController private / internal methods begin
+// -------------------------------------------------
+
 // WARNING: The StatsController.load() private method MUST ALWAYS be called within an acquired StatsController.mutex
 // context!
 func (sc *StatsController) load() error {
-    if _, err := os.Stat(sc.FilePath); os.IsNotExist(err) {    
+    if _, err := os.Stat(sc.configFilePath); os.IsNotExist(err) {
         sc.hashCount = 0
         sc.hashCumulatedResponseTimeUSec = 0
         return nil
     }
     
-    jsonBytes, err := ioutil.ReadFile(sc.FilePath)
+    jsonBytes, err := ioutil.ReadFile(sc.configFilePath)
     if nil != err {
         log.Fatal(err)
         return err
@@ -112,7 +131,7 @@ func (sc *StatsController) save() error {
         return err
     }
     
-    err = ioutil.WriteFile(sc.FilePath, jsonBytes, os.ModePerm)
+    err = ioutil.WriteFile(sc.configFilePath, jsonBytes, os.ModePerm)
     if nil != err {
         log.Fatal(err)
         return err
@@ -140,3 +159,8 @@ func (sc *StatsController) hashAverageResponseTimeUSec() float64 {
     
     return avgRespTime
 }
+
+// -------------------------------------------------
+// StatsController private / internal methods end
+// -------------------------------------------------
+

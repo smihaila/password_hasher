@@ -32,7 +32,7 @@ func (hc *HashController) Run(resp http.ResponseWriter, req *http.Request) {
             return
         }
         
-        // TODO: Perform STRICT input validation i.e. only chars from a predefined list are allowed.
+        // TODO: Perform STRICT input validation i.e. only chars from a predefined list MUST be allowed.
         password = passwordArray[0]
     }
     
