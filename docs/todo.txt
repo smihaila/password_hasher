@@ -1,0 +1,22 @@
+- Add log messages, and abundantly.
+
+- Unit + Integration Tests using BDD G-W-T style (Go-equivalent to Ruby's RSpec and C#' MSpec and RSpec).
+
+- Add a Salt / Initialization Vector concept to password hashing.
+
+- Allow the Hashing / Digest algorithm to be configurable.
+
+- Add CORS support.
+
+- Swagger / OpenAPI docs.
+
+- Add AuthN support (via OAuth 2 or via custom "users" SQL / NoSQL DB persistence layer. Maybe we could go with an
+  ApiKey concept as starting point for AuthN.
+
+- Add an in-memory Caching layer.
+
+- Dramatically increase app's overall scalability by leveraging CoackroackDB as NoSQL Data Layer. Unfortunately,
+  CoackroachDB is NOT available on Windows 7, only on Windows 8 and up. I was unable to use it on my Win 7 dev PC.
+  Use Win 10, a Docker container image or VirtualBox Linux VM.
+
+- Maybe leverage CQRS + Event pattern to separate the Write operations from Reads.
